@@ -1,71 +1,47 @@
-# vs-mdallinpicgo README
+# VS-MDAllInPicGo
 
-This is the README for your extension "vs-mdallinpicgo". After writing up a brief description, we recommend including the following sections.
+VS-MDAllInPicGo 是一个 Visual Studio Code 扩展，它可以帮助你快速上传 Markdown 文件中的本地图片到图床，并自动替换图片链接。
 
-## Features
+## 使用方法
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+1. 配置 PicGo
 
-For example if there is an image subfolder under your extension project workspace:
+   首先，你需要配置你的图床信息。在命令行中运行以下命令：
 
-\!\[feature X\]\(images/feature-x.png\)
+   ```bash
+   npx picgo set uploader
+   ```
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+   按照提示选择你想使用的图床并填写相关信息。这将自动生成 PicGo 的配置文件。
 
-## Requirements
+   PicGo 的默认配置文件路径：
+   - Windows: `C:\Users\[你的用户名]\.picgo\config.json`
+   - Linux: `~/.picgo/config.json`
+   - macOS: `~/.picgo/config.json`
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+   你可以直接编辑这个文件来修改配置，或者使用 `npx picgo set` 命令来更改设置。
 
-## Extension Settings
+2. 安装 VS-MDAllInPicGo 扩展
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+   在 VS Code 的扩展市场中搜索 "VS-MDAllInPicGo" 并安装。
 
-For example:
+3. 使用扩展
 
-This extension contributes the following settings:
+   - 打开一个 Markdown 文件
+   - 右键点击编辑器，在上下文菜单中选择 "上传并替换 Markdown 中的本地图片到图床"
+   - 扩展将自动上传文件中的所有本地图片，并替换为图床链接
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+## 注意事项
 
-## Known Issues
+- 确保你的 PicGo 配置文件正确设置，否则上传可能会失败
+- 上传大量图片可能需要一些时间，请耐心等待
+- 如果上传过程中出现错误，请查看输出面板中的详细信息
+- 如果你需要更改图床设置，可以直接编辑 PicGo 的配置文件，或使用 `npx picgo set` 命令
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+## 问题反馈
 
-## Release Notes
+如果你在使用过程中遇到任何问题，或者有任何建议，欢迎在 GitHub 仓库中提出 issue。
 
-Users appreciate release notes as you update your extension.
+## 许可证
 
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+本项目采用 MIT 许可证。详情请见 [LICENSE](LICENSE) 文件.

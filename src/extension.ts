@@ -2,43 +2,62 @@ import * as vscode from 'vscode';
 import { PicGo } from 'picgo';
 import * as path from 'path';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
+let outputChannel: vscode.OutputChannel;
+
+/**
+ * 激活扩展
+ * @param context - 扩展上下文
+ */
 export function activate(context: vscode.ExtensionContext) {
+  outputChannel = vscode.window.createOutputChannel("VS-MDAllInPicGo");
 
   let uploadImagesCommand = vscode.commands.registerCommand('vs-mdallinpicgo.uploadImages', async () => {
-    const editor = vscode.window.activeTextEditor;
-    if (!editor) {
-      vscode.window.showErrorMessage('没有打开的编辑器');
-      return;
+    try {
+      const editor = vscode.window.activeTextEditor;
+      if (!editor) {
+        vscode.window.showErrorMessage('没有打开的编辑器');
+        return;
+      }
+
+      const document = editor.document;
+      if (document.languageId !== 'markdown') {
+        vscode.window.showErrorMessage('当前文件不是 Markdown 文件');
+        return;
+      }
+
+      const picgo = new PicGo();
+      // PicGo 将自动加载其默认配置文件
+
+      await uploadAndReplaceImages(editor, document, picgo);
+    } catch (error) {
+      console.error('命令执行失败:', error);
+      let errorMessage = '执行上传图片命令时发生错误';
+      if (error instanceof Error) {
+        errorMessage += `\n${error.message}`;
+      }
+      outputChannel.appendLine(errorMessage);
+      outputChannel.show(true);
+      vscode.window.showErrorMessage("上传图片失败，请查看输出面板了解详情。");
     }
-
-    const document = editor.document;
-    if (document.languageId !== 'markdown') {
-      vscode.window.showErrorMessage('当前文件不是 Markdown 文件');
-      return;
-    }
-
-    const picgo = new PicGo();
-    // 从 VS Code 配置中获取 PicGo 配置
-    const config = vscode.workspace.getConfiguration('vs-mdallinpicgo');
-    const picBed = config.get('config');
-    picgo.setConfig({
-      picBed
-    });
-
-    await uploadAndReplaceImages(editor, document, picgo);
   });
 
   context.subscriptions.push(uploadImagesCommand);
 }
 
+/**
+ * 上传并替换 Markdown 文件中的本地图片
+ * @param editor - VS Code 文本编辑器
+ * @param document - 当前文档
+ * @param picgo - PicGo 实例
+ */
 async function uploadAndReplaceImages(editor: vscode.TextEditor, document: vscode.TextDocument, picgo: PicGo) {
   const text: string = document.getText();
   const imageRegex: RegExp = /!\[.*?\]\((.*?)\)/g;
   let match: RegExpExecArray | null;
 
   let replacements: { range: vscode.Range; newText: string }[] = [];
+  let uploadedCount = 0;
+  let failedCount = 0;
 
   // 从配置中获取上传间隔时间(毫秒)，默认为1000毫秒
   const config = vscode.workspace.getConfiguration('vs-mdallinpicgo');
@@ -58,8 +77,6 @@ async function uploadAndReplaceImages(editor: vscode.TextEditor, document: vscod
     title: "正在上传图片",
     cancellable: false
   }, async (progress, token) => {
-    let uploadedCount = 0;
-
     // 遍历文档中的所有图片链接
     while ((match = imageRegex.exec(text)) !== null) {
       const imagePath: string = match[1];
@@ -91,12 +108,10 @@ async function uploadAndReplaceImages(editor: vscode.TextEditor, document: vscod
             newText: `![](${result[0].imgUrl})`
           });
         } else {
-          console.error('上传图片失败:', result);
-          vscode.window.showErrorMessage(`上传图片失败: ${imagePath}`);
+          failedCount++;
         }
       } catch (error) {
-        console.error('上传图片失败:', error);
-        vscode.window.showErrorMessage(`上传图片失败: ${imagePath}`);
+        failedCount++;
       }
     }
   });
@@ -110,9 +125,19 @@ async function uploadAndReplaceImages(editor: vscode.TextEditor, document: vscod
     });
   }
 
-  // 显示上传完成的消息
-  vscode.window.showInformationMessage(`图片上传和替换完成，共上传 ${replacements.length} 张图片`);
+  // 显示上传结果
+  if (uploadedCount > 0 || failedCount > 0) {
+    let message = `上传完成。成功：${uploadedCount}张`;
+    if (failedCount > 0) {
+      message += `，失败：${failedCount}张`;
+    }
+    vscode.window.showInformationMessage(message);
+  } else {
+    vscode.window.showInformationMessage('没有找到需要上传的本地图片');
+  }
 }
 
-// This method is called when your extension is deactivated
+/**
+ * 扩展被停用时调用此方法
+ */
 export function deactivate() { }
