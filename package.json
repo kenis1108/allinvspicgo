@@ -1,6 +1,6 @@
 {
-  "name": "one-picgo",
-  "displayName": "one-picgo",
+  "name": "vs-mdallinpicgo",
+  "displayName": "vs-mdallinpicgo",
   "description": "一键上传MD中的所有本地图片到图床",
   "version": "0.0.1",
   "engines": {
@@ -14,7 +14,7 @@
   "contributes": {
     "commands": [
       {
-        "command": "one-picgo.uploadImages",
+        "command": "vs-mdallinpicgo.uploadImages",
         "title": "上传并替换 Markdown 中的本地图片到 Github 图床"
       }
     ],
@@ -22,7 +22,7 @@
       "editor/context": [
         {
           "when": "editorLangId == markdown",
-          "command": "one-picgo.uploadImages",
+          "command": "vs-mdallinpicgo.uploadImages",
           "group": "navigation@1"
         }
       ]
@@ -30,7 +30,7 @@
     "configuration": {
       "title": "One PicGo",
       "properties": {
-        "one-picgo.config": {
+        "vs-mdallinpicgo.config": {
           "type": "object",
           "default": {
             "uploader": "github",
@@ -44,7 +44,7 @@
           },
           "description": "PicGo 图床配置"
         },
-        "one-picgo.uploadInterval": {
+        "vs-mdallinpicgo.uploadInterval": {
           "type": "number",
           "default": 1000,
           "description": "每张图片上传间隔时间(毫秒)"

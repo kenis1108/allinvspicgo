@@ -1,6 +1,6 @@
-# one-picgo README
+# vs-mdallinpicgo README
 
-This is the README for your extension "one-picgo". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "vs-mdallinpicgo". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 

@@ -6,7 +6,7 @@ import * as path from 'path';
 // Your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
 
-  let uploadImagesCommand = vscode.commands.registerCommand('one-picgo.uploadImages', async () => {
+  let uploadImagesCommand = vscode.commands.registerCommand('vs-mdallinpicgo.uploadImages', async () => {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
       vscode.window.showErrorMessage('没有打开的编辑器');
@@ -21,7 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     const picgo = new PicGo();
     // 从 VS Code 配置中获取 PicGo 配置
-    const config = vscode.workspace.getConfiguration('one-picgo');
+    const config = vscode.workspace.getConfiguration('vs-mdallinpicgo');
     const picBed = config.get('config');
     picgo.setConfig({
       picBed
@@ -41,7 +41,7 @@ async function uploadAndReplaceImages(editor: vscode.TextEditor, document: vscod
   let replacements: { range: vscode.Range; newText: string }[] = [];
 
   // 从配置中获取上传间隔时间(毫秒)，默认为1000毫秒
-  const config = vscode.workspace.getConfiguration('one-picgo');
+  const config = vscode.workspace.getConfiguration('vs-mdallinpicgo');
   const uploadInterval = config.get('uploadInterval', 1000);
 
   // 计算需要上传的图片总数
