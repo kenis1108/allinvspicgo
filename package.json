@@ -26,6 +26,21 @@
           "group": "navigation@1"
         }
       ]
+    },
+    "configuration": {
+      "title": "VS-MDAllInPicGo",
+      "properties": {
+        "vs-mdallinpicgo.maxRetries": {
+          "type": "number",
+          "default": 3,
+          "description": "上传失败时的最大重试次数"
+        },
+        "vs-mdallinpicgo.uploadInterval": {
+          "type": "number",
+          "default": 2000,
+          "description": "上传图片的间隔时间(毫秒)"
+        }
+      }
     }
   },
   "scripts": {

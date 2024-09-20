@@ -1,2 +1,2 @@
-![](https://cdn.jsdelivr.net/gh/kenis1108/imgbed@main/test/test001.png)
-![](https://cdn.jsdelivr.net/gh/kenis1108/imgbed@main/test/test002.png)
+![](./images/test001.png)
+![](./images/test002.png)
