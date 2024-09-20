@@ -1,8 +1,8 @@
 {
   "name": "vs-mdallinpicgo",
   "displayName": "VS-MDAllInPicGo",
-  "description": "一键上传MD中的所有本地图片到图床",
-  "version": "0.0.2",
+  "description": "基于PicGo的一键上传MD中的所有本地图片到图床",
+  "version": "0.0.1",
   "engines": {
     "vscode": "^1.60.0"
   },
@@ -60,5 +60,10 @@
   },
   "dependencies": {
     "picgo": "^1.5.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kenis1108/vs-mdallinpicgo.git"
+  },
+  "publisher": "kenis1108"
 }
