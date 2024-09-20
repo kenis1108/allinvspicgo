@@ -46,20 +46,71 @@ async function main() {
    * @type {import('esbuild').Context}
    */
   const ctx = await esbuild.context({
-    entryPoints: [
-      'src/extension.ts'
-    ],
+    /**
+     * 入口点文件
+     * @type {string[]}
+     */
+    entryPoints: ['src/extension.ts'],
+
+    /**
+     * 是否将所有依赖打包到一个文件中
+     * @type {boolean}
+     */
     bundle: true,
+
+    /**
+     * 输出格式,这里是CommonJS
+     * @type {'cjs' | 'esm' | 'iife'}
+     */
     format: 'cjs',
+
+    /**
+     * 是否压缩代码,根据production变量决定
+     * @type {boolean}
+     */
     minify: production,
+
+    /**
+     * 是否生成sourcemap,非生产环境下生成
+     * @type {boolean}
+     */
     sourcemap: !production,
+
+    /**
+     * 是否在sourcemap中包含源代码内容
+     * @type {boolean}
+     */
     sourcesContent: false,
+
+    /**
+     * 目标平台
+     * @type {'browser' | 'node' | 'neutral'}
+     */
     platform: 'node',
+
+    /**
+     * 输出文件路径
+     * @type {string}
+     */
     outfile: 'dist/extension.js',
+
+    /**
+     * 外部依赖,不会被打包
+     * @type {string[]}
+     */
     external: ['vscode'],
+
+    /**
+     * 日志级别
+     * @type {'verbose' | 'debug' | 'info' | 'warning' | 'error' | 'silent'}
+     */
     logLevel: 'silent',
+
+    /**
+     * 使用的插件
+     * @type {import('esbuild').Plugin[]}
+     */
     plugins: [
-      /* add to the end of plugins array */
       esbuildProblemMatcherPlugin,
     ],
   });
