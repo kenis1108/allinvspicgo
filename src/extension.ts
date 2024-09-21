@@ -109,7 +109,7 @@ async function uploadAndReplaceImages(editor: vscode.TextEditor, document: vscod
       while (retries < maxRetries && !uploadSuccess) {
         try {
           // 生成新的文件名
-          const newFileName = generateUniqueFileName(fullImagePath);
+          const newFileName = generateUniqueFileName(fullImagePath, document.uri.fsPath);
           const newFilePath = path.join(path.dirname(fullImagePath), newFileName);
 
           // 复制并重命名文件
@@ -182,12 +182,19 @@ async function uploadAndReplaceImages(editor: vscode.TextEditor, document: vscod
  * @param {string} originalPath - 原始文件路径
  * @returns {string} 新的文件名
  */
-function generateUniqueFileName(originalPath: string): string {
+/**
+ * 生成唯一的文件名
+ * @param {string} originalPath - 原始文件路径
+ * @param {string} mdFilePath - 当前 Markdown 文件的路径
+ * @returns {string} 新的文件名
+ */
+function generateUniqueFileName(originalPath: string, mdFilePath: string): string {
   const ext = path.extname(originalPath);
   const baseName = path.basename(originalPath, ext);
+  const mdFileName = path.basename(mdFilePath, path.extname(mdFilePath));
   const timestamp = Date.now();
   const randomString = crypto.randomBytes(4).toString('hex');
-  return `${baseName}_${timestamp}_${randomString}${ext}`;
+  return `${mdFileName}_${baseName}_${timestamp}_${randomString}${ext}`;
 }
 
 /**
