@@ -2,7 +2,7 @@
   "name": "vs-mdallinpicgo",
   "displayName": "VS-MDAllInPicGo",
   "description": "基于PicGo的一键上传MD中的所有本地图片到图床",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "vscode": "^1.60.0"
   },
